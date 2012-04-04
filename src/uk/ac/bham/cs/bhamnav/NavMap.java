@@ -68,8 +68,8 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 	private RouteOverlay r;
 	private LocationOverlay locationOverlay;
 	private BuildingsOverlay buildingsOverlay;
-    int defaultstart = 0;
-    int currentdestination = -1;
+    	int defaultstart = 0;
+    	int currentdestination = -1;
 	private ArrayList<Node> nodes;
 	private Location CAMPUS = new Location("");
 	private int CAMPUS_DIAMETER = 650;
@@ -111,7 +111,8 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 				if(l.distanceTo(destinationCoods)<RANGE){
 					reached = true;
 					showInfo("Success","You have arrived at your destination");
-					((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(300); // SOURCE: http://www.clingmarks.com/?p=105 29/03/11
+					((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(300); 
+					// SOURCE: http://www.clingmarks.com/?p=105 29/03/11
 				}
 			}			
 		}
@@ -134,14 +135,14 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 		setupDefaultCriteria();
 		dialog = ProgressDialog.show(NavMap.this, "","Loading...Please Wait...");
 		r = new RouteOverlay();
-//		timeEstimator = new KalmanFilter();
 		setupPreferences();
 		r.setAntiAliasing(ANTI_ALIASING);
 		//Log.i("NavMap", "Anti-aliasing is "+ANTI_ALIASING);
 		
 		/* Load graph*/
 		Resources resources = getResources();
-		LoadXML load = new LoadXML(resources.getXml(R.xml.graph)); // Loads XML graph from Resource ID
+		LoadXML load = new LoadXML(resources.getXml(R.xml.graph)); 
+		// Loads XML graph from Resource ID
 		nodes = load.convertXML();
 
 		
@@ -150,14 +151,19 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 		mapView.setBuiltInZoomControls(true);
 		mapController = mapView.getController();
 		mapController.setZoom(ZOOM_LEVEL);
-		mapController.setCenter(new GeoPoint((int) (CAMPUS.getLatitude()*1e6),(int) (CAMPUS.getLongitude()*1e6)));
+		mapController.setCenter(
+			new GeoPoint(
+				(int) (CAMPUS.getLatitude()*1e6),
+				(int) (CAMPUS.getLongitude()*1e6))
+			);
 		createTouchableOverlays();
 		mapView.setSatellite(true);
 		mapView.postInvalidate();
-    	buildingsOverlay = new BuildingsOverlay();
+    		buildingsOverlay = new BuildingsOverlay();
     	
-    	int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-    	// Source: http://stackoverflow.com/questions/1016896/android-how-to-get-screen-dimensions
+    		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+    		// Source: http://stackoverflow.com/
+		//questions/1016896/android-how-to-get-screen-dimensions
     	
 		locationOverlay = new LocationOverlay(screenWidth);
 		
@@ -165,20 +171,22 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 		
 		loadBuildings();
 		
-		// Source: www.stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-timeouts
+		// Source: www.stackoverflow.com/questions/
+		//1560788/how-to-check-internet-access-on-android-inetaddress-never-timeouts
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		boolean networkConnected;
 		
 		try {
 			networkConnected = cm.getActiveNetworkInfo().isConnectedOrConnecting();
 			if(!networkConnected){
-				showInfo("No internet connection","You are currently not connected to the internet." +
+				showInfo("No internet connection",
+					"You are currently not connected to the internet." +
 					" Please connect to a wireless or mobile network for full functionality.");
 			}
 		}
 		catch(NullPointerException nonetwork){			
-				showInfo("No internet connection","You are currently not connected to the internet." +
-					" Please connect to a wireless or mobile network for full functionality.");		
+			showInfo("No internet connection","You are currently not connected to the internet." +
+				" Please connect to a wireless or mobile network for full functionality.");		
 		}
 		
 		setupPlacesTabByDepartment();
@@ -190,129 +198,134 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 		        
 		        final String s = (String) listView.getAdapter().getItem(position);
 
-				        int positionInNodes = -1;
+			int positionInNodes = -1;
 				        				        
-				        // if the list is sorted by Code, find the index of the corresponding node
-				        if(currentSort==1){
+			// if the list is sorted by Code, find the index of the corresponding node
+			if(currentSort==1){
 				        			        	
-				        	if(s.startsWith("Y") || s.startsWith("R") || s.startsWith("O") || s.startsWith("G") || s.startsWith("B")){
-				        		String[] number = s.split(" ", 2);
-		        				//Log.i("NavMap","Number = '"+number[0]+"'");
-		        				String code = number[0];
-		        				code.trim();
+				if(	s.startsWith("Y") || s.startsWith("R") || 
+					s.startsWith("O") || s.startsWith("G") ||
+				 	s.startsWith("B")){
+				        
+					String[] number = s.split(" ", 2);
+		        		//Log.i("NavMap","Number = '"+number[0]+"'");
+		        		String code = number[0];
+		        		code.trim();
 		        				
-		        				//Log.i("NavMap", "Char at 1 "+code.charAt(1));
+		        		//Log.i("NavMap", "Char at 1 "+code.charAt(1));
 		        				
-		        				if(code.charAt(1)=='0'){
-		        					String[] temp = code.split("0", 2);
-		        					code = temp[0]+temp[1];
-			        				//Log.i("NavMap", "Replaced 0");
-		        				}
+		        		if(code.charAt(1)=='0'){
+		        			String[] temp = code.split("0", 2);
+		        			code = temp[0]+temp[1];
+			        		//Log.i("NavMap", "Replaced 0");
+		        		}
 		        				
-				        		for(int i=0; i<nodes.size();i++){
-				        			//Log.i("NavMap","Comparing"+code+nodes.get(i).getCode());				        			
-				        			if(nodes.get(i).getCode().equals(code)){
-				        				positionInNodes = i;
-				        			}
-				        		}
-				        		if(positionInNodes==-1){
-				        			//Log.i("NavMap","Position in Nodes: "+positionInNodes);
-				        		}
+				        for(int i=0; i<nodes.size();i++){
+				        	//Log.i("NavMap","Comparing"+code+nodes.get(i).getCode());				        			
+				        	if(nodes.get(i).getCode().equals(code)){
+				        		positionInNodes = i;
 				        	}
-				        
 				        }
-				        
-				        // if the list is sorted by Building name, find the index of the corresponding node
-				        else if(currentSort==2){
-					        for(int i=0; i<nodes.size() ;i++){
-					        	if(nodes.get(i).getBuildingName()!=null && nodes.get(i).getBuildingName().equals(s)){
-					        		positionInNodes = i;
-					        		break;
-					        	}
-					        }
+				        if(positionInNodes==-1){
+				        	//Log.i("NavMap","Position in Nodes: "+positionInNodes);
 				        }
+				}
 				        
-				        else {
-					        for(int i=0; i<nodes.size() ;i++){
-					        	if(nodes.get(i).getDepartment()!=null && nodes.get(i).getDepartment().equals(s)){
-					        		positionInNodes = i;
-					        		break;
-					        	}
-					        }		        	
-				        }
+			}
+				        
+			// if the list is sorted by Building name, find the index of the corresponding node
+			else if(currentSort==2){
+			        for(int i=0; i<nodes.size() ;i++){
+			        	if(nodes.get(i).getBuildingName()!=null && nodes.get(i).getBuildingName().equals(s)){
+				       		positionInNodes = i;
+				       		break;
+				       	}
+				}
+			}
+				        
+			else {
+			        for(int i=0; i<nodes.size() ;i++){
+			        	if(nodes.get(i).getDepartment()!=null && nodes.get(i).getDepartment().equals(s)){
+			        		positionInNodes = i;
+			        		break;
+			        	}
+			        }		        	
+		        }
 
 				        
-						// If the selected action is to display the route
-						if(ROUTES_ON==true){
-					        try {
-					        	if(lastloc!=null){		        		
-					        		if(currentGpsStatus == GpsStatus.GPS_EVENT_STOPPED || lm.isProviderEnabled(provider)==false){
+			// If the selected action is to display the route
+			if(ROUTES_ON==true){
+			        try {
+			        	if(lastloc!=null){		        		
+			        		if(currentGpsStatus == GpsStatus.GPS_EVENT_STOPPED 
+							|| lm.isProviderEnabled(provider)==false){
 						        		setCurrentLocation();
-					        		}
-					        	}
-					        	else {
-					        		setCurrentLocation();
-					        	}
 					        }
-					        catch(NullPointerException e){		        	
-					        	setCurrentLocation();		        	
-					        }
+					}
+					else {
+					        setCurrentLocation();
+					}
+				}
+				catch(NullPointerException e){		        	
+				       	setCurrentLocation();		        	
+				}
 					        
 					        
-					        if(positionInNodes>=0 && positionInNodes<nodes.size())
-					        {
+				if(positionInNodes>=0 && positionInNodes<nodes.size())
+				{
 
-					        	drawRoute(defaultstart, positionInNodes);
-					        	
-					        	if(currentGpsStatus!=GpsStatus.GPS_EVENT_STOPPED || currentGpsStatus!=-1){
+				       	drawRoute(defaultstart, positionInNodes);
+				        	
+				       	if(currentGpsStatus!=GpsStatus.GPS_EVENT_STOPPED || currentGpsStatus!=-1){
 
-						        	Location l = new Location("");
-					        		GeoPoint meh = nodes.get(positionInNodes).getGeoPoint();
-						        	float x = (float) (meh.getLatitudeE6()/1E6);
-						        	float y = (float) (meh.getLongitudeE6()/1E6);
-						        	l.setLatitude(x);
-						        	l.setLongitude(y);
-					        		addProximityAlert(l,20);
-					        	}
+				        	Location l = new Location("");
+				       		GeoPoint meh = nodes.get(positionInNodes).getGeoPoint();
+				  	   	float x = (float) (meh.getLatitudeE6()/1E6);
+					        	float y = (float) (meh.getLongitudeE6()/1E6);
+					       	l.setLatitude(x);
+					       	l.setLongitude(y);
+					   	addProximityAlert(l,20);
+					}
 
-					        	mapView.getOverlays().remove(buildingsOverlay);
-					        	buildingsOverlay.removeAll();
+					mapView.getOverlays().remove(buildingsOverlay);
+					buildingsOverlay.removeAll();
 					        	
-					        	Log.i("NavMap", "Clicked on "+positionInNodes);
+					Log.i("NavMap", "Clicked on "+positionInNodes);
 					        	
-					        	if(nodes.get(positionInNodes).getBuilding()!=null){
-						        	buildingsOverlay.addBuilding(nodes.get(positionInNodes).getBuilding());
-						        	Log.i("NavMap", "Number of geopoints at building '"+positionInNodes+"' is "+nodes.get(positionInNodes).getBuilding().getGeoPoints().size());
+					if(nodes.get(positionInNodes).getBuilding()!=null){
+					      	buildingsOverlay.addBuilding(nodes.get(positionInNodes).getBuilding());
+					       	Log.i("NavMap", "Number of geopoints at building '"+
+							positionInNodes+"' is "+
+							nodes.get(positionInNodes).getBuilding().
+								getGeoPoints().size());
 						        	
-						        	Log.i("NavMap", "#1 Added building at "+positionInNodes);
-						        	//Log.i("NavMap", "Building added asdsd" );
-						    		mapView.getOverlays().add(buildingsOverlay);			        		
-						        	drawRoute(defaultstart, positionInNodes);
-					        	}
-					        }
+					        Log.i("NavMap", "#1 Added building at "+positionInNodes);
+					        //Log.i("NavMap", "Building added asdsd" );
+					    	mapView.getOverlays().add(buildingsOverlay);			        		
+					        	drawRoute(defaultstart, positionInNodes);
+					}
+				}
 
-						}
-						else {
-							mapView.getOverlays().remove(r);
-				        	r = new RouteOverlay();
-							mapView.getOverlays().remove(buildingsOverlay);
-							mapView.getOverlays().add(r);
-				        	buildingsOverlay.removeAll();
-				        	if(positionInNodes>=0 && positionInNodes<nodes.size()){
-					        	if(nodes.get(positionInNodes).getBuilding()!=null){
-						        	Log.i("NavMap", "#2 Added building at "+positionInNodes);
-					        		buildingsOverlay.addBuilding(nodes.get(positionInNodes).getBuilding());
-					    			mapView.getOverlays().add(buildingsOverlay);			        		
-					        	}
-								GeoPoint geopoint = nodes.get(positionInNodes).getGeoPoint();
-					        	mapController.animateTo(geopoint);
-
-				        	}
-						}
-						tabHost.setCurrentTab(MAP_TAB);
-			        	mapController.setZoom(19);
-
-		        		        
+			}
+			else {
+				mapView.getOverlays().remove(r);
+			       	r = new RouteOverlay();
+				mapView.getOverlays().remove(buildingsOverlay);
+				mapView.getOverlays().add(r);
+			       	buildingsOverlay.removeAll();
+			
+			       	if(positionInNodes>=0 && positionInNodes<nodes.size()){
+			        	if(nodes.get(positionInNodes).getBuilding()!=null){
+				        	Log.i("NavMap", "#2 Added building at "+positionInNodes);
+			        		buildingsOverlay.addBuilding(nodes.get(positionInNodes).getBuilding());
+			    			mapView.getOverlays().add(buildingsOverlay);			        		
+			        	}
+					GeoPoint geopoint = nodes.get(positionInNodes).getGeoPoint();
+			        	mapController.animateTo(geopoint);
+				}
+			}
+			tabHost.setCurrentTab(MAP_TAB);
+			mapController.setZoom(19);        
 		    }
 		});
 		
@@ -321,17 +334,21 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 		 */		
 		Resources res = getResources(); // obtains icons as Drawable objects
 				
-		tabHost.addTab(tabHost.newTabSpec("List").setIndicator("Places", res.getDrawable(R.drawable.noun_project_460_1)).setContent(new TabContentFactory() {
-		    public View createTabContent(String arg0) {
-		        return listView;
-		    }
+		tabHost.addTab(tabHost.newTabSpec("List")
+			.setIndicator("Places", res.getDrawable(R.drawable.noun_project_460_1))
+			.setContent(new TabContentFactory() {
+		    		public View createTabContent(String arg0) {
+		        		return listView;
+		    		}
 		})); 
 
-		tabHost.addTab(tabHost.newTabSpec("Map").setIndicator("Map", res.getDrawable(R.drawable.noun_project_96)).setContent(new TabContentFactory() {
-		    public View createTabContent(String arg0) {
-		        return mapView;
-		    }
-	    }));
+		tabHost.addTab(tabHost.newTabSpec("Map")
+			.setIndicator("Map", res.getDrawable(R.drawable.noun_project_96))
+			.setContent(new TabContentFactory() {
+		    		public View createTabContent(String arg0) {
+		        		return mapView;
+		    		}
+	    	}));
 		
 		
 		this.getApplicationContext();
@@ -522,7 +539,8 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 				}
 			}
 		}		
-		Collections.sort(pointsList); // Source: http://www.javamex.com/tutorials/collections/sorting_simple_cases.shtml 26/02/11
+		Collections.sort(pointsList); 
+		// Source: http://www.javamex.com/tutorials/collections/sorting_simple_cases.shtml 26/02/11
 		listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, pointsList));
 	}
 	
@@ -643,9 +661,6 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 		lb.load();
 	}
 	
-	
-	
-	
 	/**
 	 * Replaces createTouchableOverlays
 	 */ 
@@ -679,7 +694,8 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 				OverlayItem overlayitem = new OverlayItem(g, n.getBuildingName(), desc);				
 				
 				if(n.getCode().startsWith("Y")){
-					YnodeOverlay.addNode(overlayitem, n.getDrawable()); // second parameter passes in R.drawable.bg resource
+					YnodeOverlay.addNode(overlayitem, n.getDrawable());
+					// second parameter passes in R.drawable.bg resource
 					numberOfYellows++;
 				}
 				
@@ -811,7 +827,9 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 				return ;
 			}
 			
-			GeoPoint temp = new GeoPoint((int) (location.getLatitude()*1E6),(int) (location.getLongitude()*1E6));
+			GeoPoint temp = new GeoPoint(
+					(int)(location.getLatitude()*1E6),
+					(int) (location.getLongitude()*1E6));
 			if(currentGpsStatus!=GpsStatus.GPS_EVENT_STOPPED){
 				mapController.animateTo(temp);	
 			}			
@@ -839,7 +857,8 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Intent checksettings = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);				
+				Intent checksettings = new Intent(
+					android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);				
 				startActivity(checksettings);
 				GPS_ON = true;
 			}});
@@ -1019,7 +1038,8 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 		if (item.getTitle().equals("About")) {
 			Intent launchweb = new Intent(Intent.ACTION_VIEW);
 			launchweb.setData(Uri.parse("http://studentweb.cs.bham.ac.uk/~axs911/android.html"));
-			// http://stackoverflow.com/questions/3004515/android-sending-an-intent-to-browser-to-open-specific-url
+			//http://stackoverflow.com/
+			//questions/3004515/android-sending-an-intent-to-browser-to-open-specific-url
 			startActivity(launchweb);
 		}		
 		return super.onOptionsItemSelected(item);
@@ -1093,20 +1113,20 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 			return ;
 		}
 		
-    	mapView.getOverlays().remove(r);
-    	currentdestination = destination;
-    	r = new RouteOverlay();
-    	FindShortestPath path = new FindShortestPath(nodes);
-    	ArrayList<GeoPoint> result = path.drawDijkstra(origin, destination);
+    		mapView.getOverlays().remove(r);
+    		currentdestination = destination;
+    		r = new RouteOverlay();
+    		FindShortestPath path = new FindShortestPath(nodes);
+    		ArrayList<GeoPoint> result = path.drawDijkstra(origin, destination);
     	
-    	if(result.size()>0){
+    		if(result.size()>0){
 			//Log.i("NavMap", "Switched to tab1");
-    		r.setPath(result);    		
-    	}
+    			r.setPath(result);    		
+    		}
 
-    	mapView.getOverlays().add(r);
+    		mapView.getOverlays().add(r);
     	
-    	counter = counter + 1;
+    		counter = counter + 1;
     	    	    	
 	}
 		
@@ -1127,10 +1147,13 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 			provider = null;
 		}
 		catch(SecurityException sec){
-			Toast.makeText(this, "Security Warning: The app isn't allowed to access location provider", Toast.LENGTH_LONG);
+			Toast.makeText(this, 
+			"Security Warning: The app isn't allowed to access location provider",
+			Toast.LENGTH_LONG);
 		}
 		catch(NullPointerException e){
-			//Log.i("NavMap","When you tried to resume the app, you tried to request location, but it returned null");
+			//Log.i("NavMap","When you tried to resume the app, you tried to request
+			// location, but it returned null");
 		}
 		super.onResume();
 	}
@@ -1141,7 +1164,8 @@ public class NavMap extends MapActivity implements LocationListener, Listener {
 			lm.removeUpdates(this);
 		}
 		catch(NullPointerException e){
-			//Log.i("NavMap", "When you tried to pause the app, you tried to shutdown the GPS but there was no provider to shutdown");
+			//Log.i("NavMap", "When you tried to pause the app, you tried
+			// to shutdown the GPS but there was no provider to shutdown");
 		}
 		super.onPause();
 	}
