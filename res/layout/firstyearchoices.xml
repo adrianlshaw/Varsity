@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://developer.android.com/resource/tutorials/views/hello-formstuff.html -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+<TextView android:text="Which modules are you taking?" android:layout_width="fill_parent"
+android:layout_height="wrap_content" android:textSize="18dp" android:textStyle="bold" 
+android:textColor="#ffffff" android:gravity="center_horizontal" android:padding="5dip"/>
+
+<View android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="1dip" />
+
+<TextView android:text="Choose one from below." android:layout_width="fill_parent" android:layout_height="wrap_content"  android:gravity="center_horizontal" android:textStyle="italic"/>
+
+<RadioGroup
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	
+	<RadioButton android:id="@+id/radio_infoweb"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Information and the Web" />
+	<RadioButton android:id="@+id/radio_robots"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Robot Programming" />
+
+	</RadioGroup>
+	
+<View android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="1dip" />	
+	
+<TextView android:text="Choose one from below." android:layout_width="fill_parent" android:layout_height="wrap_content"  android:gravity="center_horizontal" android:textStyle="italic"/>
+
+<RadioGroup
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	
+	<RadioButton android:id="@+id/radio_maths"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Introduction to Mathematics for CS" />
+	
+	<RadioButton android:id="@+id/radio_momd"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Modules Outside the Main Discipline" />
+<TextView android:text="Note: To take an MOMD you must have an A-Level in Mathematics." android:layout_width="fill_parent" android:layout_height="wrap_content"  android:gravity="center_horizontal" android:textStyle="italic"/>
+
+</RadioGroup>
+
+<Button android:text="Finish" android:textStyle="bold" android:textSize="18dip" android:id="@+id/submityear1choice" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+	
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://developer.android.com/resource/tutorials/views/hello-formstuff.html -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="wrap_content" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+<TextView android:text="Which module are you taking? (Semester 1)" android:layout_width="fill_parent"
+android:layout_height="wrap_content" android:textSize="18dp" android:textStyle="bold" 
+android:textColor="#ffffff" android:gravity="center_horizontal" android:padding="5dip"/>
+
+<View android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="1dip" />
+<TextView android:text="Choose one from below." android:layout_width="fill_parent" android:layout_height="wrap_content"  android:gravity="center_horizontal" android:textStyle="italic"/>
+<RadioGroup
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	
+	<RadioButton android:id="@+id/radio_prolog"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Prolog" />
+	
+	<RadioButton android:id="@+id/radio_haskell"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Haskell" />
+
+</RadioGroup>
+
+<View android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="1dip" />
+<TextView android:text="Choose one from below." android:layout_width="fill_parent" android:layout_height="wrap_content"  android:gravity="center_horizontal" android:textStyle="italic"/>
+<RadioGroup
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	
+	<RadioButton android:id="@+id/radio_natcomp"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Introduction to Natural Computation" />
+	
+	<RadioButton android:id="@+id/radio_machlearn"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Machine Learning" />
+
+	<RadioButton android:id="@+id/radio_softeng"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Software Engineering" />
+
+	<RadioButton android:id="@+id/radio_l2"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="L2 language module" />
+<TextView android:text="Note: To take an L2 language module you must have already completed L1 in the same module the previous year." android:layout_width="fill_parent" android:layout_height="wrap_content"  android:gravity="center_horizontal" android:textStyle="italic"/>
+
+</RadioGroup>	
+
+<Button android:text="Next" android:textStyle="bold" android:textSize="18dip" android:id="@+id/submityear2sem1choice" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+
+</LinearLayout>
+</ScrollView>

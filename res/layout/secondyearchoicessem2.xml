@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://developer.android.com/resource/tutorials/views/hello-formstuff.html -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+<TextView android:text="Which module are you taking? (Semester 2)" android:layout_width="fill_parent"
+android:layout_height="wrap_content" android:textSize="18dp" android:textStyle="bold" 
+android:textColor="#ffffff" android:gravity="center_horizontal" android:padding="5dip"/>
+
+<View android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="1dip" />
+<TextView android:text="Choose one from below." android:layout_width="fill_parent" android:layout_height="wrap_content"  android:gravity="center_horizontal" android:textStyle="italic"/>
+<RadioGroup
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	
+	<RadioButton android:id="@+id/radio_compvis"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Computational Vision" />
+	
+	<RadioButton android:id="@+id/radio_nlp"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Natural Language Processing 1" />
+
+</RadioGroup>
+
+<Button android:text="Finish" android:textStyle="bold" android:textSize="18dip" android:id="@+id/submityear2sem2choice" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+
+</LinearLayout>
