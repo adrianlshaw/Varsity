@@ -9,6 +9,6 @@
         android:layout_height="fill_parent"
         android:enabled="true"
         android:clickable="true"
-        android:apiKey="0ojW3eEyTF-0Gl5n3RXBJrMZ8wtkKSE_CZY4roQ"
-        />
+        android:apiKey="ENTER YOUR GOOGLE MAPS DEV API KEY HERE"
+    />
 </LinearLayout>
